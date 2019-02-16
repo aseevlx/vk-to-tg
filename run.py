@@ -1,4 +1,4 @@
-#!/usr/bin/env pipenv run python
+#!/usr/bin/env python3.7
 import signal
 from threading import Event
 import logging
