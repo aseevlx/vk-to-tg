@@ -2,4 +2,4 @@
 *.log
 *.pyc
 .env
-db.txt
+db.txt*
