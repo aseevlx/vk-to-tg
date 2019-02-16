@@ -11,6 +11,7 @@ ipdb = "*"
 requests = "*"
 vk-api = "*"
 tinydb = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
