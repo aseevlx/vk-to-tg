@@ -18,11 +18,11 @@ def get_last_post_date():
     return last_post_date
 
 
-def update_last_post_date(last_post_date):
+def update_last_post_date():
     """
     Get last post date from shelve
     :param last_post_date:
     :return:
     """
     with shelve.open('db.txt') as db:
-        db['last_post_date'] = last_post_date
+        db['last_post_date'] = int(time())

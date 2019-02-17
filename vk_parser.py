@@ -40,9 +40,9 @@ def get_photos(posts):
     sizes_range = ['w', 'z', 'y', 'x', 'm']
     last_send_date = get_last_post_date()
     for post in posts:
-        # break loop if we get all new photos
+        # continue loop if post was posted before
         if post['date'] <= last_send_date:
-            break
+            continue
 
         photo_sizes = {}
         attachments = post.get('attachments')
@@ -61,5 +61,6 @@ def get_photos(posts):
                 photos.append(photo_sizes[size])
                 break
 
-    update_last_post_date(posts[0]['date'])
+    if photos:
+        update_last_post_date()
     return photos[::-1]
