@@ -1,7 +1,8 @@
-import os
 import logging
+import os
 
 from dotenv import load_dotenv
+from peewee import SqliteDatabase
 
 load_dotenv()
 
@@ -11,8 +12,9 @@ VK_APP_ID = int(os.getenv('VK_APP_ID'))
 VK_SERVICE_TOKEN = os.getenv('VK_SERVICE_TOKEN')
 VK_PAGE_ID = os.getenv('VK_PAGE_ID')
 POSTS_COUNT = int(os.getenv('POSTS_COUNT'))
+DB_PATH = os.getenv('DB_PATH')
 
-PARSING_INTERVAL = 5*60  # time to sleep after every iteration
+db = SqliteDatabase(DB_PATH)
 
 logging.basicConfig(
     level=logging.INFO,

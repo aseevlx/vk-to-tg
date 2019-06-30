@@ -1,5 +1,5 @@
-from time import time
 import shelve
+from time import time
 
 
 def get_last_post_date():
