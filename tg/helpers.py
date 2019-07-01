@@ -1,11 +1,12 @@
-def get_post_text(post):
-    text = post.text
-    if post.reposted_from:
-        # TODO: check for length, e.g.: 1024 for photo.caption, 4096 for message.text
-        reposted_text = f'Репост из {post.reposted_from}\n{post.reposted_text}'
-    if text:
-        text = f'{reposted_text}\n{text}'
-    else:
-        text = reposted_text
+def get_repost_text(post):
+    """
+    Generate text from reposted text
+    :param post: TgPost object
+    :return: str
+    """
+    if not post.reposted_from:
+        return ''
 
-    return text
+    repost_text = f'Репост {post.reposted_from}\n\n{post.reposted_text}'
+
+    return repost_text

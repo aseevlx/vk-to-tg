@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from peewee import Model, CharField, DateTimeField
 
-from settings import db
+from settings import db, VK_PAGE_ID, POSTS_COUNT
 
 
 class BaseModel(Model):
@@ -12,7 +14,9 @@ class VkPublic(BaseModel):
     """
     VK public model
     """
-    vk_id = CharField()
+    page_id = CharField(default=VK_PAGE_ID)
+    posts_count = CharField(default=POSTS_COUNT)  # how many posts fetch
     name = CharField()
     url = CharField()
-    date_added = DateTimeField()
+    date_added = DateTimeField(default=datetime.now)
+    last_check_date = DateTimeField(default=datetime.now)

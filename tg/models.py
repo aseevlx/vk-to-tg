@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from peewee import Model, ForeignKeyField, CharField, DateTimeField, BooleanField
 
-from settings import db
+from settings import db, TG_CHAT_ID
 from vk.models import VkPublic
 
 
@@ -13,35 +15,28 @@ class TgChannel(BaseModel):
     """
     TG channel model
     """
-    chat_id = CharField()
+    chat_id = CharField(default=TG_CHAT_ID)
     name = CharField()
     url = CharField()
-    date_added = DateTimeField()
+    date_added = DateTimeField(default=datetime.now)
 
 
 class TgPost(BaseModel):
     """
     Tg post model
     """
-    # url = CharField()
-    #
-    # sent = BooleanField()
-    # date_sent = DateTimeField()
-    #
-    # public = ForeignKeyField(TgChannel, backref='posts')
-    # vk_post = ForeignKeyField(VkPost, backref='tg_post')
-
     post_id = CharField()  # unique identifier of vk post
-    url = CharField()
 
-    pictures = CharField()  # picture urls, separated by comma
-    text = CharField()
-    reposted_from = CharField()
-    reposted_text = CharField()
+    pictures = CharField(default='')  # picture urls, separated by comma
+    text = CharField(default='')
 
-    sent = BooleanField()
+    reposted_from = CharField(default='')
+    reposted_text = CharField(default='')
+    reposted_pictures = CharField(default='')  # picture urls, separated by comma
+
+    sent = BooleanField(default=False)
 
     vk_public = ForeignKeyField(VkPublic, backref='posts')
     tg_channel = ForeignKeyField(TgChannel, backref='posts')
 
-    date_added = DateTimeField()
+    date_added = DateTimeField(default=datetime.now)
