@@ -8,7 +8,9 @@ App for automatic repost photos from vk group to telegram channel.
 4) Get your vk group id
 5) Type `pipenv install`
 6) Copy .env.conf file to .env and fill it with your data.
-7) Type `chmod +x ./run.py && ./run.py`
+7) Init db: `python initdb.py`
+8) Type `chmod +x ./run.py`
+9) Add script to cronab
 
 ## .env variables
 * `BOT_API_TOKEN` - token from @BotFather
@@ -17,14 +19,12 @@ App for automatic repost photos from vk group to telegram channel.
 * `VK_SERVICE_TOKEN` - vk service app token
 * `VK_PAGE_ID` - vk group id for tracking, should start from -
 * `POSTS_COUNT` - count of posts will fetched from vk by every iteration
+* `DB_PATH` - path to sqlite db
+* `SETTINGS_MODULE` - prod or dev
+* `PROJECT_PATH` - path to root of project
 
-
-## supervisor
-I use supervisor for production:
-``` 
-[program:vk2tg]
-directory=/home/www/github/vk-to-tg/
-command=/usr/local/bin/pipenv run ./run.py
-autostart=true
-autorestart=true
-```
+Params for base init
+* `TG_CHANNEL_NAME` 
+* `TG_CHANNEL_URL`
+* `VK_PUBLIC_NAME`
+* `VK_PUBLIC_URL`

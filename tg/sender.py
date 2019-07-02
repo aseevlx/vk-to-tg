@@ -1,5 +1,7 @@
 import logging
 import textwrap
+from io import BytesIO
+import requests
 
 from telegram import InputMediaPhoto
 
@@ -51,14 +53,20 @@ def send_post_to_channel(chat_id, post):
 
 
 def send_repost(chat_id, post):
-    # todo: make this work!
+    """
+    Send repost with picture(s) or text
+    :param chat_id: str
+    :param post: TgPost object
+    :return: str
+    """
+    # todo: try except because of tg images errors
     text = get_repost_text(post)
     message_id = None
 
     if post.reposted_pictures:
         message_id = send_post_with_pics(chat_id, post.reposted_pictures, text)
-    if post.text:
-        message_id = bot.send_message(chat_id=chat_id, text=text).message_id
+    elif text:
+        message_id = bot.send_message(chat_id=chat_id, text=text)
 
     return message_id
 
@@ -70,9 +78,8 @@ def send_post_with_pics(chat_id, pictures, text, post_to_reply=None):
     :param pictures: str
     :param text: str
     :param post_to_reply: str
-    :return:
+    :return: str
     """
-    import ipdb;ipdb.set_trace()
     pictures_list = pictures.split(',')
     message_id = None
 
@@ -84,7 +91,13 @@ def send_post_with_pics(chat_id, pictures, text, post_to_reply=None):
 
         pictures = []
         for picture_url in pictures_list:
-            pictures.append(InputMediaPhoto(media=picture_url, caption=text))
+            try:
+                pic = BytesIO(requests.get(picture_url).content)
+            except BaseException as e:
+                logger.error(f'Error downloading picture: {e}')
+                continue
+
+            pictures.append(InputMediaPhoto(media=pic, caption=text))
 
         message_id = bot.send_media_group(chat_id=chat_id, media=pictures, reply_to_message_id=post_to_reply).message_id
     elif len(pictures_list) == 1:
@@ -93,12 +106,18 @@ def send_post_with_pics(chat_id, pictures, text, post_to_reply=None):
             send_post_with_text(chat_id, text, post_to_reply)
             text = ''
 
+        try:
+            pic = BytesIO(requests.get(pictures_list[0]).content)
+        except BaseException as e:
+            logger.error(f'Error downloading picture: {e}')
+            return
+
         message_id = bot.send_photo(
             chat_id=chat_id,
-            photo=pictures_list[0],
+            photo=pic,
             caption=text,
             reply_to_message_id=post_to_reply
-        )
+        ).message_id
 
     return message_id
 
@@ -110,15 +129,29 @@ def send_post_with_text(chat_id, text, post_to_reply=None):
     :param chat_id: str
     :param text: str
     :param post_to_reply: str
+    :return: str
     """
+    message_id = None
+
+    # max length of message is 4096 symbols
     if 0 < len(text) <= 4096:
-        bot.send_message(chat_id=chat_id, text=text, reply_to_message_id=post_to_reply)
+        message_id = bot.send_message(
+            chat_id=chat_id,
+            text=text,
+            disable_web_page_preview=True,
+            reply_to_message_id=post_to_reply
+        ).message_id
 
     if len(text) > 4096:
         text_list = textwrap.wrap(text, 4096)
         for text_piece in text_list:
-            bot.send_message(chat_id=chat_id, text=text_piece, reply_to_message_id=post_to_reply)
+            message_id = bot.send_message(
+                chat_id=chat_id,
+                text=text_piece,
+                disable_web_page_preview=True,
+                reply_to_message_id=post_to_reply
+            ).message_id
 
-    return
+    return message_id
 
 

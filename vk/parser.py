@@ -25,10 +25,8 @@ def get_new_posts():
     try:
         vk_session = vk_api.VkApi(app_id=VK_APP_ID, token=VK_SERVICE_TOKEN)
         vk = vk_session.get_api()
-
-        # TODO: use vk.execute to get posts from date
         posts = vk.wall.get(owner_id=vk_public.page_id, count=vk_public.posts_count).get('items')
-        import ipdb;ipdb.set_trace()
+
         posts = get_only_new_posts(posts, vk_public)
         logging.info(f'Fetched {len(posts)} new posts')
     except BaseException as e:
@@ -52,7 +50,7 @@ def parse_and_save_post(post, vk_public, tg_channel):
     """
     TgPost(
         post_id=post.get('id'),  # unique identifier of vk post
-        pictures=get_photos(post),  # TODO: нужно учитывать, что в репостнутом скорее всего картинка, нужно брать их из репоста!
+        pictures=get_photos(post.get('attachments')),
         text=post.get('text'),
         reposted_from=get_url_to_reposted_post(post),
         reposted_text=get_reposted_text(post),
@@ -63,17 +61,16 @@ def parse_and_save_post(post, vk_public, tg_channel):
     ).save()
 
 
-def get_photos(post):
+def get_photos(attachments):
     """
     Parse photo urls from post
     and return string with photo urls
-    :param post: dict
+    :param attachments: list
     :return: list
     """
     photos = []
     sizes_range = ['w', 'z', 'y', 'x', 'm']  # preferred sizes of pics, from bigger to smaller
 
-    attachments = post.get('attachments')
     if attachments is None:
         return ''
 
@@ -122,6 +119,13 @@ def get_reposted_text(post):
 def get_reposted_pictures(post):
     """
 
-    :return:
+    :param post: TgPost object
+    :return: str
     """
-    return ''
+    if not post.get('copy_history'):
+        return ''
+
+    attachments = post['copy_history'][0].get('attachments')
+    pictures = get_photos(attachments)
+
+    return pictures

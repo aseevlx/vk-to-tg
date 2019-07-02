@@ -15,7 +15,7 @@ class TgChannel(BaseModel):
     """
     TG channel model
     """
-    chat_id = CharField(default=TG_CHAT_ID)
+    chat_id = CharField()
     name = CharField()
     url = CharField()
     date_added = DateTimeField(default=datetime.now)

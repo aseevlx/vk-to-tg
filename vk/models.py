@@ -14,8 +14,8 @@ class VkPublic(BaseModel):
     """
     VK public model
     """
-    page_id = CharField(default=VK_PAGE_ID)
-    posts_count = CharField(default=POSTS_COUNT)  # how many posts fetch
+    page_id = CharField()
+    posts_count = CharField()  # how many posts fetch
     name = CharField()
     url = CharField()
     date_added = DateTimeField(default=datetime.now)
