@@ -1,7 +1,9 @@
-import os
 import logging
+import os
 
 from dotenv import load_dotenv
+from peewee import SqliteDatabase
+from telegram import Bot
 
 load_dotenv()
 
@@ -11,8 +13,16 @@ VK_APP_ID = int(os.getenv('VK_APP_ID'))
 VK_SERVICE_TOKEN = os.getenv('VK_SERVICE_TOKEN')
 VK_PAGE_ID = os.getenv('VK_PAGE_ID')
 POSTS_COUNT = int(os.getenv('POSTS_COUNT'))
+DB_PATH = os.getenv('DB_PATH')
 
-PARSING_INTERVAL = 5*60  # time to sleep after every iteration
+TG_CHANNEL_NAME = os.getenv('TG_CHANNEL_NAME')
+TG_CHANNEL_URL = os.getenv('TG_CHANNEL_URL')
+VK_PUBLIC_NAME = os.getenv('VK_PUBLIC_NAME')
+VK_PUBLIC_URL = os.getenv('TG_CHANNEL_URL')
+
+db = SqliteDatabase(DB_PATH)
+
+bot = Bot(token=BOT_API_TOKEN)
 
 logging.basicConfig(
     level=logging.INFO,
