@@ -46,7 +46,6 @@ def send_post_to_channel(chat_id, post):
             logger.critical(f'Can\'t recognize post type with id {post.post_id}')
     except BaseException as e:
         logger.critical(f'Can\'t send post {post.id}: {e}')
-        return
 
     post.sent = True
     post.save()
@@ -99,7 +98,7 @@ def send_post_with_pics(chat_id, pictures, text, post_to_reply=None):
 
             pictures.append(InputMediaPhoto(media=pic, caption=text))
 
-        message_id = bot.send_media_group(chat_id=chat_id, media=pictures, reply_to_message_id=post_to_reply).message_id
+        message_id = bot.send_media_group(chat_id=chat_id, media=pictures, reply_to_message_id=post_to_reply)[0].message_id
     elif len(pictures_list) == 1:
         # maximum length of caption is 1024 symbols
         if len(text) > 1024:
