@@ -23,7 +23,7 @@ def get_only_new_posts(posts, vk_public):
 
         new_posts.append(post)
 
-    return new_posts
+    return new_posts[::-1]
 
 
 def utc2local(utc_time):
