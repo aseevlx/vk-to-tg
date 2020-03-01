@@ -52,8 +52,10 @@ def parse_and_save_post(post, vk_public, tg_channel):
         post_id=post.get('id'),  # unique identifier of vk post
         pictures=get_photos(post.get('attachments')),
         text=post.get('text'),
-        reposted_from=get_url_to_reposted_post(post),
-        reposted_text=get_reposted_text(post),
+        # reposted_from=get_url_to_reposted_post(post),
+        # reposted_text=get_reposted_text(post),
+        reposted_from='',
+        reposted_text='',
         reposted_pictures=get_reposted_pictures(post),
         sent=False,
         vk_public=vk_public,
