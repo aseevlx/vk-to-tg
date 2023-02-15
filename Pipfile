@@ -16,4 +16,4 @@ peewee = "*"
 python-telegram-bot = "==13.15.0"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
