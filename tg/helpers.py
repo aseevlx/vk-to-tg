@@ -8,5 +8,4 @@ def get_repost_text(post) -> str:
         return ""
 
     repost_text = f"Репост {post.reposted_from}\n\n{post.reposted_text}"
-
     return repost_text

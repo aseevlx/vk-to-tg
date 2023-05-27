@@ -2,7 +2,7 @@
 Migration example
 """
 
-from playhouse.migrate import *
+from playhouse.migrate import SqliteMigrator, migrate, CharField
 
 from tg.models import db
 

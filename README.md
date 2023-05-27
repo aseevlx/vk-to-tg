@@ -28,3 +28,12 @@ Params for base init
 * `TG_CHANNEL_URL`
 * `VK_PUBLIC_NAME`
 * `VK_PUBLIC_URL`
+
+## Checks
+Install dev dependencies: `pipenv install --dev`
+Then run checks:
+
+* black:
+  * `pipenv run black . --config pyproject.toml`
+* flake8
+  * `pipenv run flake8 . --toml-config pyproject.toml`

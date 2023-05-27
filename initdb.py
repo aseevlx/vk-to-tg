@@ -1,4 +1,4 @@
-from settings import *
+from settings import db, TG_CHAT_ID, TG_CHANNEL_NAME, TG_CHANNEL_URL, VK_PAGE_ID, POSTS_COUNT, VK_PUBLIC_NAME
 from tg.models import TgPost, TgChannel
 from vk.models import VkPublic
 

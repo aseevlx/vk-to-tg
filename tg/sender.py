@@ -18,7 +18,7 @@ def send_new_posts():
     Get new posts
     """
     tg_channel = TgChannel.get_by_id(1)  # FIXME: hardcode for one channel
-    new_posts = TgPost.select().where(TgPost.sent == False, TgPost.tg_channel == tg_channel)
+    new_posts = TgPost.select().where(TgPost.sent == False, TgPost.tg_channel == tg_channel)  # noqa: E712
 
     for post in new_posts:
         try:
