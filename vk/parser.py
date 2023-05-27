@@ -65,14 +65,14 @@ def get_photos(attachments: list[dict]) -> str:
     :return: list
     """
     photos = []
-    # https://dev.vk.com/reference/objects/photo-sizes
+
     sizes_range = [
         "w",  # 2560x2048
         "z",  # 1080x1024
         "y",  # 807x
         "x",  # 604x
         "m",  # 130x
-    ]
+    ]  # https://dev.vk.com/reference/objects/photo-sizes
 
     if attachments is None:
         return ""
