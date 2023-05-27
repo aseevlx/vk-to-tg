@@ -1,5 +1,5 @@
-from datetime import datetime
 import time
+from datetime import datetime
 
 
 def get_only_new_posts(posts, vk_public):
@@ -17,10 +17,9 @@ def get_only_new_posts(posts, vk_public):
     new_posts = []
 
     for post in posts:
-        post_date = utc2local(datetime.utcfromtimestamp(post['date']))
+        post_date = utc2local(datetime.utcfromtimestamp(post["date"]))
         if post_date < last_check_date:
             continue
-
         new_posts.append(post)
 
     return new_posts[::-1]
